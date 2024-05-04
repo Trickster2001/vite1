@@ -5,19 +5,17 @@ const TodoForm = () => {
 
   const [todo, setTodo] = useState("");
 
-  const {addTodo} = useTodo()
+  const {addTodo} = useTodo();
 
   const add = (e) => {
     e.preventDefault();
-    console.log(todo);
 
     if(!todo) return
 
-    addTodo({todo:todo, completed: false})
-
+    addTodo({title:todo, completed:false})
     setTodo("");
   }
-  
+
   return (
     <form onSubmit={add} className="flex">
             <input

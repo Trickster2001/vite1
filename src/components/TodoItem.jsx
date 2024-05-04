@@ -3,20 +3,20 @@ import { useTodo } from '../context';
 
 const TodoItem = ({todo}) => {
 
-  const [isTodoEdit, setIsTodoEdit] = useState(false);
-  const [todoMsg, setTodoMsg] = useState(todo.todo)
+  const [isEdit, setIsEdit] = useState(false);
+  const [todoMsg, setTodoMsg] = useState(todo.title);
 
   const {updateTodo, deleteTodo, toggleComplete} = useTodo()
 
   const editTodo = () => {
-    updateTodo(todo.id, {...todo, todo: todoMsg})
-    setIsTodoEdit(false)
+    updateTodo(todo.id, {...todo, title:todoMsg})
+    setIsEdit(false)
   }
 
-  const toggleCompleteddd = () => {
-    toggleComplete(todo.id)
+  const toggle = () => {
+    toggleComplete(todo.id);
   }
-  
+
   return (
     <div
             className={`flex border border-black/10 rounded-lg px-3 py-1.5 gap-x-3 shadow-sm shadow-white/50 duration-300  text-black ${
@@ -27,16 +27,16 @@ const TodoItem = ({todo}) => {
                 type="checkbox"
                 className="cursor-pointer"
                 checked={todo.completed}
-                onChange={toggleCompleteddd}
+                onChange={toggle}
             />
             <input
                 type="text"
                 className={`border outline-none w-full bg-transparent rounded-lg ${
-                    isTodoEdit ? "border-black/10 px-2" : "border-transparent"
+                    isEdit ? "border-black/10 px-2" : "border-transparent"
                 } ${todo.completed ? "line-through" : ""}`}
                 value={todoMsg}
                 onChange={(e) => setTodoMsg(e.target.value)}
-                readOnly={!isTodoEdit}
+                readOnly={!isEdit}
             />
             {/* Edit, Save Button */}
             <button
@@ -44,13 +44,13 @@ const TodoItem = ({todo}) => {
                 onClick={() => {
                     if (todo.completed) return;
 
-                    if (isTodoEdit) {
+                    if (isEdit) {
                         editTodo();
-                    } else setIsTodoEdit((prev) => !prev);
+                    } else setIsEdit((prev) => !prev);
                 }}
                 disabled={todo.completed}
             >
-                {isTodoEdit ? "📁" : "✏️"}
+                {isEdit ? "📁" : "✏️"}
             </button>
             {/* Delete Todo Button */}
             <button
