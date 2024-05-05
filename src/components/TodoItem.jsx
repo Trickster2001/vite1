@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useTodo } from '../context';
 
 const TodoItem = ({todo}) => {
@@ -16,6 +16,15 @@ const TodoItem = ({todo}) => {
   const toggle = () => {
     toggleComplete(todo.id);
   }
+
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    if (isEdit && inputRef.current) {
+      inputRef.current.focus();
+      inputRef.current.select();
+    }
+  }, [isEdit]);
 
   return (
     <div
@@ -37,6 +46,7 @@ const TodoItem = ({todo}) => {
                 value={todoMsg}
                 onChange={(e) => setTodoMsg(e.target.value)}
                 readOnly={!isEdit}
+                ref={inputRef}
             />
             {/* Edit, Save Button */}
             <button
