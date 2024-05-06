@@ -1,30 +1,22 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { removeTodo, updateTodo } from '../features/todo/todoSlice'
+import { removeTodo } from '../features/todo/todoSlice';
 import TodoItem from './TodoItem';
 
 const Todos = () => {
-
-  // const [todoMsg, setTodoMsg] = useState(todo.text);
-
-  const todos = useSelector((state) => state.todos);
-
-  const dispatch = useDispatch()
-
+  const todos = useSelector((state)=>state.todos);
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  }, [todos]);
   return (
     <>
-    <div>Todos</div>
-    {todos.map((todo) => (
-      <li key={todo.id}>{todo.text}
-      <button onClick={() => dispatch(removeTodo(todo.id))}>X</button>
-      </li>
-      // <TodoItem todo={todo} />
-    ))}
-
-    {/* <div>
-      <input type="text" value={todoMsg} onChange={(e)=>setTodoMsg(e.target.value)} />
-      <button onClick={() => dispatch(updateTodo({id:todo.id, text: todoMsg}))}>Edit</button>
-    </div> */}
+    <div className='flex flex-wrap gap-3 m-10 justify-center'>
+        {todos.map((todo)=>(
+          <div key={todo.id}>
+          <TodoItem todo={todo} />
+          </div>
+        ))}
+      </div>
     </>
   )
 }
